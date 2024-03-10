@@ -1,13 +1,13 @@
-package com.example.bondoman_pdd.ui.home
+package com.example.bondoman_pdd.ui.scanner
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class ScannerViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is scanner Fragment"
     }
     val text: LiveData<String> = _text
 }

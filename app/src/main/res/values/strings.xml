@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">bondoman_pdd</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Bondoman_PDD</string>
+    <string name="title_transactions">Transactions</string>
+    <string name="title_scanner">Scanner</string>
+    <string name="title_chart">Chart</string>
+    <string name="title_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
