@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Bondoman_PDD"
+rootProject.name = "bondoman_pdd"
 include(":app")
