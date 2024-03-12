@@ -4,22 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700"
-    tools:context=".ui.settings.SettingsFragment">
+    android:background="@color/background"
+    tools:context=".ui.transactions.TransactionsFragment">
 
-    <TextView
-        android:id="@+id/text_settings"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:text="Settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/background">
+
+        <Button
+            android:id="@+id/savebutton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/button_background"
+            android:drawableLeft="@drawable/download_button"
+            android:orientation="vertical"
+            android:text="@string/save_transactions"
+            android:textAllCaps="false"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/sendbutton"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/button_background"
+            android:drawableLeft="@drawable/send_button"
+            android:orientation="vertical"
+            android:text="@string/send_transactions"
+            android:textAllCaps="false"
+            android:textSize="25sp"/>
+
+        <Button
+            android:id="@+id/logoutbutton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:backgroundTint="@color/logout"
+            android:text="@string/logout"
+            android:textAllCaps="false"
+            android:textSize="25sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
