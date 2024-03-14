@@ -1,13 +1,17 @@
 package com.example.bondoman_pdd.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.FragmentSettingsBinding
+import com.example.bondoman_pdd.ui.login.LoginActivity
 
 class SettingsFragment : Fragment() {
 
@@ -33,6 +37,28 @@ class SettingsFragment : Fragment() {
 //            textView.text = it
 //        }
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Find the logout button by its ID
+        val logoutButton = view.findViewById<Button>(R.id.logoutbutton)
+
+        // Set click listener on the logout button
+        logoutButton.setOnClickListener {
+            // Create an Intent to navigate back to LoginActivity
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+
+            // Add flags to clear the activity stack so that LoginActivity becomes the top activity
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            // Start LoginActivity
+            startActivity(intent)
+
+            // Optionally, finish the current activity (fragment activity) if you want to clear it from the stack
+            requireActivity().finish()
+        }
     }
 
     override fun onDestroyView() {
