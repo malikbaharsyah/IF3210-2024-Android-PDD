@@ -3,6 +3,7 @@ package com.example.bondoman_pdd
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bondoman_pdd.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,12 +12,12 @@ class SplashActivity : AppCompatActivity() {
 
             // Handler 3000ms
             android.os.Handler().postDelayed({
-                gotoMainActivity()
-            }, 3000)
+                gotoLoginActivity()
+            }, 1000)
         }
 
-    private fun gotoMainActivity(){
-        startActivity(Intent(this, MainActivity::class.java))
+    private fun gotoLoginActivity(){
+        startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
 }
