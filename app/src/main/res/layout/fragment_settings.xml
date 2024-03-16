@@ -21,6 +21,7 @@
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/button_background"
             android:drawableLeft="@drawable/download_button"
+            android:fontFamily="@font/montserrat_medium"
             android:orientation="vertical"
             android:text="@string/save_transactions"
             android:textAllCaps="false"
@@ -34,6 +35,7 @@
             android:layout_marginTop="40dp"
             android:backgroundTint="@color/button_background"
             android:drawableLeft="@drawable/send_button"
+            android:fontFamily="@font/montserrat_medium"
             android:orientation="vertical"
             android:text="@string/send_transactions"
             android:textAllCaps="false"
@@ -46,6 +48,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
             android:backgroundTint="@color/logout"
+            android:fontFamily="@font/montserrat_bold"
             android:text="@string/logout"
             android:textAllCaps="false"
             android:textSize="25sp" />

@@ -13,6 +13,10 @@
         android:theme="@style/Theme.Bondoman_pdd"
         tools:targetApi="31">
         <activity
+            android:name=".AddTransactionActivity"
+            android:exported="false"
+            android:label="@string/add_transactions_title" />
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />

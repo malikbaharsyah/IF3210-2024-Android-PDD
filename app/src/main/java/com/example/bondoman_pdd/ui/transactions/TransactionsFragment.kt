@@ -1,13 +1,18 @@
 package com.example.bondoman_pdd.ui.transactions
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.bondoman_pdd.AddTransactionActivity
+import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.FragmentTransactionsBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class TransactionsFragment : Fragment() {
 
@@ -34,6 +39,17 @@ class TransactionsFragment : Fragment() {
 //        }
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val addButton = view.findViewById<FloatingActionButton>(R.id.add_transaction_button)
+        addButton.setOnClickListener {
+            // Start AddTransactionActivity
+            val intent = Intent(requireContext(), AddTransactionActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {

@@ -54,17 +54,17 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginResult.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
 
-//            loading.visibility = View.GONE
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
+            } else if (username.text.toString() != "jason@gmail.com" || password.text.toString() != "12345678") {
+                // Check if username and password are not equal to expected values
+                showLoginFailed(R.string.login_failed) // Show login failed message
+            } else {
+                // Username and password match expected values, proceed with successful login
+                updateUiWithUser(loginResult.success!!)
+                setResult(Activity.RESULT_OK)
+                finish()
             }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
-            }
-            setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         username.afterTextChanged {

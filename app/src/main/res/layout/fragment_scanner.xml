@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
+    android:background="@color/background"
     tools:context=".ui.scanner.ScannerFragment">
 
     <ImageView
@@ -22,7 +22,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:backgroundTint="@color/button_background"
-        android:text="Scan"
+        android:fontFamily="@font/montserrat_bold"
+        android:textAllCaps="false"
+        android:text="@string/scan_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

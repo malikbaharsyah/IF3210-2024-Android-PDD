@@ -9,24 +9,28 @@
         android:id="@+id/navigation_transactions"
         android:name="com.example.bondoman_pdd.ui.transactions.TransactionsFragment"
         android:label="@string/title_transactions"
+        android:fontFamily="@font/montserrat_medium"
         tools:layout="@layout/fragment_transactions" />
 
     <fragment
         android:id="@+id/navigation_scanner"
         android:name="com.example.bondoman_pdd.ui.scanner.ScannerFragment"
         android:label="@string/title_scanner"
+        android:fontFamily="@font/montserrat_medium"
         tools:layout="@layout/fragment_scanner" />
 
     <fragment
         android:id="@+id/navigation_chart"
         android:name="com.example.bondoman_pdd.ui.chart.ChartFragment"
         android:label="@string/title_chart"
+        android:fontFamily="@font/montserrat_medium"
         tools:layout="@layout/fragment_chart" />
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.bondoman_pdd.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
+        android:fontFamily="@font/montserrat_medium"
         tools:layout="@layout/fragment_settings" />
 
 </navigation>
