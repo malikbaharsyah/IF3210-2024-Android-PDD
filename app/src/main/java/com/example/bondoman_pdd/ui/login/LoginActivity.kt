@@ -1,5 +1,6 @@
 package com.example.bondoman_pdd.ui.login
 
+import SecureStorage
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.Observer
@@ -10,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.databinding.ActivityLoginBinding
 
 import com.example.bondoman_pdd.R
+import com.example.bondoman_pdd.data.repository.LoginRepository
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,23 +26,25 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val username = binding.username
         val password = binding.password
-        val login = binding.login
-        val loading = binding.loading
+        val loginButton = binding.login
+        val loadingProgressBar = binding.loading
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
+        val loginRepository = LoginRepository()
+        val viewModelFactory = LoginViewModelFactory(loginRepository)
+        loginViewModel = ViewModelProvider(this, viewModelFactory)
             .get(LoginViewModel::class.java)
+
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+            loginButton.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -51,20 +54,26 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
-
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            } else if (username.text.toString() != "jason@gmail.com" || password.text.toString() != "12345678") {
-                // Check if username and password are not equal to expected values
-                showLoginFailed(R.string.login_failed) // Show login failed message
-            } else {
-                // Username and password match expected values, proceed with successful login
-                updateUiWithUser(loginResult.success!!)
+        loginViewModel.loginResult.observe(this@LoginActivity, Observer { result ->
+            val email = username.text.toString()
+            if (loadingProgressBar != null) {
+                loadingProgressBar.visibility = View.GONE
+            }
+            result.fold(onSuccess = { response ->
+                // store token
+                SecureStorage.storeToken(this@LoginActivity, response.token)
+                // Handle successful login
+                val welcomeMessage = getString(R.string.welcome) + email
+                Toast.makeText(applicationContext, welcomeMessage, Toast.LENGTH_LONG).show()
+                // Proceed to MainActivity
+                startActivity(Intent(this, MainActivity::class.java))
                 setResult(Activity.RESULT_OK)
                 finish()
-            }
+            }, onFailure = {
+                // Handle login failure
+                showLoginFailed(R.string.login_failed)
+                return@Observer
+            })
         })
 
         username.afterTextChanged {
@@ -82,28 +91,15 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+            loginButton.setOnClickListener {
+                if (loadingProgressBar != null) {
+                    loadingProgressBar.visibility = View.VISIBLE
                 }
-                false
-            }
-
-            login.setOnClickListener {
-//                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                val email = username.text.toString()
+                val pw = password.text.toString()
+                loginViewModel.login(email, pw)
             }
         }
-    }
-
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
@@ -121,7 +117,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }
