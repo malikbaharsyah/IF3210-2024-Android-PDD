@@ -9,6 +9,8 @@
     <string name="send_transactions">Send\nTransactions\nList</string>
     <string name="logout">Logout</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="camera_scanner">Camera</string>
+    <string name="gallery_scanner">Gallery</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_log_in">Log in or register</string>
