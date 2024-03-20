@@ -28,6 +28,7 @@
     <string name="lokasi">Lokasi</string>
     <string name="saveButton">Save</string>
     <string name="kategoriarray">Kategori</string>
+    <string name="randomize_button">Randomize Transaction</string>
     <string-array name="kategori_array">
         <item>Penjualan</item>
         <item>Pembelian</item>

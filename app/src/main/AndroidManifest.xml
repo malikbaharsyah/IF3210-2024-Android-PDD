@@ -12,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bondoman_pdd"
         tools:targetApi="31">
-        <activity
-            android:name=".AddTransactionActivity"
-            android:exported="false"
-            android:label="@string/add_transactions_title" />
+        <receiver android:name=".ui.addTransactions.BroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="APP_SPECIFIC_BROADCAST" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".MainActivity"
             android:exported="false"

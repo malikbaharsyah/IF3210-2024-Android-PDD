@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/transaction_nav">
+
+    <!-- TransactionsFragment -->
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="com.example.bondoman_pdd.ui.transactions.TransactionsFragment"
+        android:label="TransactionsFragment"
+        tools:layout="@layout/fragment_transactions">
+
+        <!-- Define action to navigate to AddTransactionFragment -->
+        <action
+            android:id="@+id/action_transactionsFragment_to_addTransactionFragment"
+            app:destination="@id/addTransactionFragment" />
+    </fragment>
+
+    <!-- AddTransactionFragment -->
+    <fragment
+        android:id="@+id/addTransactionFragment"
+        android:name="com.example.bondoman_pdd.ui.addTransactions.AddTransactionFragment"
+        android:label="AddTransactionFragment"
+        tools:layout="@layout/fragment_add_transaction">
+        <!-- Add any arguments if required -->
+    </fragment>
+
+</navigation>
