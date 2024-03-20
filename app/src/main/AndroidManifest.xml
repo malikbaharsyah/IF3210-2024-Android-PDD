@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bondoman_pdd"
         tools:targetApi="31">
-        <receiver android:name=".ui.addTransactions.BroadcastReceiver" android:exported="false">
+        <receiver android:name=".ui.addTransactions.MyBroadcastReceiver" android:exported="false">
             <intent-filter>
-                <action android:name="APP_SPECIFIC_BROADCAST" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <activity
