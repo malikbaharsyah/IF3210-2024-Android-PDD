@@ -83,18 +83,13 @@
             android:layout_marginStart="3dp"
             android:layout_marginTop="40dp"/>
 
-        <EditText
+        <Spinner
             android:id="@+id/kategori"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/nominal"
-            android:hint="@string/kategori"
-            android:padding="8dp"
+            android:padding="10dp"
             android:fontFamily="@font/montserrat_medium"
-            android:textColor="@android:color/black"
-            android:imeOptions="actionDone"
-            android:selectAllOnFocus="true"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/lokasiLabel"
@@ -106,7 +101,7 @@
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:layout_marginStart="3dp"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="25dp"/>
 
         <EditText
             android:id="@+id/lokasi"
