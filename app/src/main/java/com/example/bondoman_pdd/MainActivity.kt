@@ -1,23 +1,28 @@
 package com.example.bondoman_pdd
 
+import TransactionAdapter
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman_pdd.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val navView: BottomNavigationView = binding.navView
 
@@ -31,5 +36,17 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Ambil data dari database
+        val setupData = com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper(this)
+        val listTransactions = setupData.getTransactions(13521028)
+
+        println("R.id.recyclerview : ${R.id.recyclerview}")
+        val rvTransaction : RecyclerView = findViewById(R.id.recyclerview)
+//        rvTransaction.layoutManager = LinearLayoutManager(this)
+        println("Datas : $listTransactions")
+        rvTransaction.adapter = TransactionAdapter(listTransactions)
+
+
     }
 }

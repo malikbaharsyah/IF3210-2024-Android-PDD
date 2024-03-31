@@ -1,9 +1,7 @@
 package com.example.bondoman_pdd.ui.main
 
 import android.content.Intent
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +10,13 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.bondoman_pdd.MainActivity
-
 import com.example.bondoman_pdd.R
-import com.example.bondoman_pdd.ui.login.LoginActivity
+import com.example.bondoman_pdd.data.model.Transactions
+import com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper
+import java.util.Calendar
 
 class AddTransactionFragment : Fragment() {
 
@@ -96,7 +97,22 @@ class AddTransactionFragment : Fragment() {
 
         // Set click listener on the logout button
         saveTransactionButton.setOnClickListener {
+            // Masukan data ke database
+            // Ambil data dari form
+            val judul = view.findViewById<TextView>(R.id.judul).text.toString()
+            val nominal = view.findViewById<TextView>(R.id.nominal).text.toString().toFloat()
+            val kategori = view.findViewById<Spinner>(R.id.kategori).selectedItem.toString()
+            val lokasi = view.findViewById<TextView>(R.id.lokasi).text.toString()
+            // Untuk tanggal bisa menggunakan tanggal sekarang memakai Calendar.getInstance().time.toString()
+            val tanggal = Calendar.getInstance().time.toString()
+
+            // Insert data ke database
+//            insertTransaction(Transactions(0, 123456789, judul, nominal, kategori, tanggal, lokasi))
+            val db = DatabaseHelper(requireContext())
+            db.insertTransaction(Transactions(0, 13521028, judul, nominal, kategori, tanggal, lokasi))
+            // Show tabel transaksi di dalam logcat
             // Create an Intent to navigate back to LoginActivity
+
             val intent = Intent(requireActivity(), MainActivity::class.java)
 
             // Add flags to clear the activity stack so that LoginActivity becomes the top activity

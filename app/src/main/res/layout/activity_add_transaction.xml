@@ -35,7 +35,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
