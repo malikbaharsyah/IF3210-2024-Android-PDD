@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
+
     private const val BASE_URL = "https://pbd-backend-2024.vercel.app/"
 
     private val instance: Retrofit by lazy {
@@ -15,5 +16,9 @@ object RetrofitClient {
     }
     val loginInstace: AuthService by lazy {
         instance.create(AuthService::class.java)
+    }
+
+    val scannerInstance: ScannerService by lazy {
+        instance.create(ScannerService::class.java)
     }
 }

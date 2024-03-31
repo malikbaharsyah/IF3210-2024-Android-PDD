@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.tracing:tracing-perfetto-handshake:1.0.0")
     val core_version = "1.12.0"
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
