@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.FragmentSettingsBinding
 import com.example.bondoman_pdd.ui.login.LoginActivity
@@ -68,6 +69,7 @@ class SettingsFragment : Fragment() {
             randomizeTransaction()
             println("Randomize Transaction jalan")
             Toast.makeText(requireContext(), "Randomize Transaction", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_settingsFragment_to_addTransactionFragment)
         }
     }
 

@@ -6,11 +6,6 @@
         android:title="@string/title_transactions" />
 
     <item
-        android:id="@+id/navigation_addTransactions"
-        android:icon="@drawable/add_button"
-        android:title="@string/add_transactions_title" />
-
-    <item
         android:id="@+id/navigation_scanner"
         android:icon="@drawable/scanner_logo"
         android:title="@string/title_scanner" />

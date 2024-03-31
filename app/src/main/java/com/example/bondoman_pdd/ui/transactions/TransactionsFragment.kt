@@ -48,7 +48,6 @@ class TransactionsFragment : Fragment() {
         val addButton = view.findViewById<FloatingActionButton>(R.id.add_transaction_button)
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_transactionsFragment_to_addTransactionFragment)
-            findNavController().popBackStack()
         }
     }
 

@@ -10,7 +10,12 @@
         android:name="com.example.bondoman_pdd.ui.transactions.TransactionsFragment"
         android:label="@string/title_transactions"
         android:fontFamily="@font/montserrat_medium"
-        tools:layout="@layout/fragment_transactions" />
+        tools:layout="@layout/fragment_transactions">
+
+        <action
+            android:id="@+id/action_transactionsFragment_to_addTransactionFragment"
+            app:destination="@id/navigation_addTransactions" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_addTransactions"
@@ -38,6 +43,11 @@
         android:name="com.example.bondoman_pdd.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         android:fontFamily="@font/montserrat_medium"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+
+    <action
+        android:id="@+id/action_settingsFragment_to_addTransactionFragment"
+        app:destination="@id/navigation_addTransactions" />
+    </fragment>
 
 </navigation>
