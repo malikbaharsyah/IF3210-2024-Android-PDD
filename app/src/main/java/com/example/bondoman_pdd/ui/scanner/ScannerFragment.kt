@@ -34,7 +34,7 @@ class ScannerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val scannerViewModel =
-            ViewModelProvider(this).get(ScannerViewModel::class.java)
+            ViewModelProvider(this)[ScannerViewModel::class.java]
 
         _binding = FragmentScannerBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -85,33 +85,8 @@ class ScannerFragment : Fragment() {
         _binding = null
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CAMERA_PERMISSION || requestCode == REQUEST_GALLERY_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (requestCode == REQUEST_CAMERA_PERMISSION) {
-                    openCamera()
-                } else if (requestCode == REQUEST_GALLERY_PERMISSION) {
-                    openGallery()
-                }
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Permission denied",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 100
         private const val REQUEST_PICK_IMAGE = 101
-        private const val REQUEST_CAMERA_PERMISSION = 102
-        private const val REQUEST_GALLERY_PERMISSION = 103
     }
 }
