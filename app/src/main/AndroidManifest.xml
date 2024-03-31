@@ -14,7 +14,8 @@
         tools:targetApi="31">
         <receiver android:name=".ui.addTransactions.MyBroadcastReceiver" android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
+                <action android:name="android.intent.action.RANDOMIZE_TRANSACTION" />
             </intent-filter>
         </receiver>
         <activity

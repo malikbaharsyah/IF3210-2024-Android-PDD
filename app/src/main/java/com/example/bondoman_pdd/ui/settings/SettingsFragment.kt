@@ -15,7 +15,7 @@ import com.example.bondoman_pdd.databinding.FragmentSettingsBinding
 import com.example.bondoman_pdd.ui.login.LoginActivity
 
 
-const val ACTION_RANDOMIZE_TRANSACTION = "com.example.bondoman_pdd.RANDOMIZE_TRANSACTION"
+const val ACTION_RANDOMIZE_TRANSACTION = "android.intent.action.RANDOMIZE_TRANSACTION"
 
 class SettingsFragment : Fragment() {
 
@@ -104,10 +104,10 @@ class SettingsFragment : Fragment() {
     }
 
     private fun randomizeTransaction() {
-        val intent = Intent().also {intent ->
+        val intent = Intent().also { intent ->
             intent.setAction(ACTION_RANDOMIZE_TRANSACTION)
-            intent.putExtra("data", "Nothing to see here, move along.")
         }
         requireContext().sendBroadcast(intent)
+        println("Broadcast sent successfully")
     }
 }

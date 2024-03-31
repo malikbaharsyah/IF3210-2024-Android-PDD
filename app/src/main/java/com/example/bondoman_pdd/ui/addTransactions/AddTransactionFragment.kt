@@ -1,5 +1,5 @@
 package com.example.bondoman_pdd.ui.addTransactions
-
+import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.FragmentAddTransactionBinding
 import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
+
 
 class AddTransactionFragment : Fragment() {
 
@@ -37,8 +38,11 @@ class AddTransactionFragment : Fragment() {
         broadcastReceiver = MyBroadcastReceiver(binding)
 
         // Register the BroadcastReceiver
-        val filter = IntentFilter(ACTION_RANDOMIZE_TRANSACTION)
-        val listenToBroadcastsFromOtherApps = false
+        val filter = IntentFilter().apply {
+            addAction(ACTION_RANDOMIZE_TRANSACTION)
+            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        }
+        val listenToBroadcastsFromOtherApps = true
         val receiverFlags = if (listenToBroadcastsFromOtherApps) {
             ContextCompat.RECEIVER_EXPORTED
         } else {
