@@ -13,7 +13,10 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val loginInstace: AuthService by lazy {
-        instance.create(AuthService::class.java)
+    val loginInstace: LoginService by lazy {
+        instance.create(LoginService::class.java)
+    }
+    val tokenInstance: TokenService by lazy {
+        instance.create(TokenService::class.java)
     }
 }

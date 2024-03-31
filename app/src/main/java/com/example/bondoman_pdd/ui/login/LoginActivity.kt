@@ -63,6 +63,7 @@ class LoginActivity : AppCompatActivity() {
             result.fold(onSuccess = { response ->
                 // store token
                 SecureStorage.storeToken(this@LoginActivity, response.token)
+                SecureStorage.storeEmail(this@LoginActivity, email)
                 // Handle successful login
                 val welcomeMessage = getString(R.string.welcome) + email
                 Toast.makeText(applicationContext, welcomeMessage, Toast.LENGTH_LONG).show()

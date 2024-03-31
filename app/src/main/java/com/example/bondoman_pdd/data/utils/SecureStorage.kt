@@ -7,6 +7,7 @@ object SecureStorage {
 
     private const val FILE_NAME = "encrypted_shared_prefs"
     private const val KEY_TOKEN = "KEY_TOKEN"
+    private const val EMAIL = "EMAIL"
 
     private fun getEncryptedSharedPreferences(context: Context): SharedPreferences {
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -33,6 +34,21 @@ object SecureStorage {
     fun deleteToken(context: Context) {
         val prefs = getEncryptedSharedPreferences(context)
         prefs.edit().remove(KEY_TOKEN).apply()
+    }
+
+    fun storeEmail(context: Context, email: String) {
+        val prefs = getEncryptedSharedPreferences(context)
+        prefs.edit().putString(EMAIL, email).apply()
+    }
+
+    fun getEmail(context: Context): String? {
+        val prefs = getEncryptedSharedPreferences(context)
+        return prefs.getString(EMAIL, null)
+    }
+
+    fun deleteEmail(context: Context) {
+        val prefs = getEncryptedSharedPreferences(context)
+        prefs.edit().remove(EMAIL).apply()
     }
 
 }
