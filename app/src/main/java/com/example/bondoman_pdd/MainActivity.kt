@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.bondoman_pdd.databinding.ActivityMainBinding
+import com.example.bondoman_pdd.data.utils.NetworkUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,5 +32,14 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (!NetworkUtils.isOnline(this)) {
+            NetworkUtils.showNoInternetConnectionPopup(this)
+        }
+    }
+
 }

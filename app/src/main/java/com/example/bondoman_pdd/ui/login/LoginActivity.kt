@@ -18,6 +18,7 @@ import com.example.bondoman_pdd.databinding.ActivityLoginBinding
 
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.data.repository.LoginRepository
+import com.example.bondoman_pdd.data.utils.NetworkUtils
 
 class LoginActivity : AppCompatActivity() {
 
@@ -97,8 +98,19 @@ class LoginActivity : AppCompatActivity() {
                 }
                 val email = username.text.toString()
                 val pw = password.text.toString()
-                loginViewModel.login(email, pw)
+                if (!NetworkUtils.isOnline(this@LoginActivity)) {
+                    NetworkUtils.showNoInternetConnectionPopup(this@LoginActivity)
+                } else {
+                    loginViewModel.login(email, pw)
+                }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!NetworkUtils.isOnline(this)) {
+            NetworkUtils.showNoInternetConnectionPopup(this)
         }
     }
 
