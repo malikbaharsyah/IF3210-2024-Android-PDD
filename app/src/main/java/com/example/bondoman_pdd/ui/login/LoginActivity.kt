@@ -3,6 +3,7 @@ package com.example.bondoman_pdd.ui.login
 import SecureStorage
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -15,8 +16,8 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.databinding.ActivityLoginBinding
-
 import com.example.bondoman_pdd.R
+import java.util.Objects
 import com.example.bondoman_pdd.data.repository.LoginRepository
 
 class LoginActivity : AppCompatActivity() {
@@ -28,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Objects.requireNonNull(getSupportActionBar())?.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.top_bg)))
 
         val username = binding.username
         val password = binding.password
