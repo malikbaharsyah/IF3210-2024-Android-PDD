@@ -1,13 +1,14 @@
 package com.example.bondoman_pdd.ui.settings
 
+import SecureStorage
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -48,9 +49,12 @@ class SettingsFragment : Fragment() {
 
         // Set click listener on the logout button
         logoutButton.setOnClickListener {
-            // Call the logout function
-            logout()
-        }
+            // delete token
+            SecureStorage.deleteToken(requireContext())
+            Log.d("SettingsFragment","${SecureStorage.getToken(requireContext())} token removed")
+
+            // Create an Intent to navigate back to LoginActivity
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
 
         sendButton.setOnClickListener {
             // Create an Intent to send an email
