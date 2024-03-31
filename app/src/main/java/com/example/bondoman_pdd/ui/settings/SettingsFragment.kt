@@ -51,6 +51,7 @@ class SettingsFragment : Fragment() {
         logoutButton.setOnClickListener {
             // delete token
             SecureStorage.deleteToken(requireContext())
+            SecureStorage.deleteEmail(requireContext())
             Log.d("SettingsFragment","${SecureStorage.getToken(requireContext())} token removed")
 
             // Create an Intent to navigate back to LoginActivity

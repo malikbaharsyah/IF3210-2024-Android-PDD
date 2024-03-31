@@ -20,12 +20,12 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<Result<LoginResponse>> = _loginResult
 
     fun login(email: String, password: String) {
-        viewModelScope.launch {
-            val resultLiveData = loginRepository.login(email, password)
-            resultLiveData.observeForever { result ->
-                _loginResult.postValue(result)
+            viewModelScope.launch {
+                val resultLiveData = loginRepository.login(email, password)
+                resultLiveData.observeForever { result ->
+                    _loginResult.postValue(result)
+                }
             }
-        }
     }
 
     fun loginDataChanged(username: String, password: String) {

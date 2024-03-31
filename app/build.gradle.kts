@@ -64,6 +64,7 @@ dependencies {
     implementation("androidx.core:core-remoteviews:1.1.0-alpha01")
     implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
     implementation("androidx.security:security-crypto:1.0.0")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.7.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")

@@ -19,6 +19,7 @@ import com.example.bondoman_pdd.databinding.ActivityLoginBinding
 import com.example.bondoman_pdd.R
 import java.util.Objects
 import com.example.bondoman_pdd.data.repository.LoginRepository
+import com.example.bondoman_pdd.data.utils.NetworkUtils
 
 class LoginActivity : AppCompatActivity() {
 
@@ -65,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
             result.fold(onSuccess = { response ->
                 // store token
                 SecureStorage.storeToken(this@LoginActivity, response.token)
+                SecureStorage.storeEmail(this@LoginActivity, email)
                 // Handle successful login
                 val welcomeMessage = getString(R.string.welcome) + email
                 Toast.makeText(applicationContext, welcomeMessage, Toast.LENGTH_LONG).show()
@@ -100,8 +102,19 @@ class LoginActivity : AppCompatActivity() {
                 }
                 val email = username.text.toString()
                 val pw = password.text.toString()
-                loginViewModel.login(email, pw)
+                if (!NetworkUtils.isOnline(this@LoginActivity)) {
+                    NetworkUtils.showNoInternetConnectionPopup(this@LoginActivity)
+                } else {
+                    loginViewModel.login(email, pw)
+                }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!NetworkUtils.isOnline(this)) {
+            NetworkUtils.showNoInternetConnectionPopup(this)
         }
     }
 
