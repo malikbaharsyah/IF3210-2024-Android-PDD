@@ -11,23 +11,38 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@id/button"
+        app:layout_constraintBottom_toBottomOf="@id/buttonCamera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="250dp"
+        android:id="@+id/buttonCamera"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginTop="60dp"
         android:backgroundTint="@color/button_background"
         android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/camera_scanner"
         android:textAllCaps="false"
-        android:text="@string/scan_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonGallery"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+    <Button
+        android:id="@+id/buttonGallery"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/button_background"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="@string/gallery_scanner"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonCamera"
         app:layout_constraintTop_toBottomOf="@id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,4 +11,5 @@
     <color name="button_background">#FF5894</color>
     <color name="logout">#FF0000</color>
     <color name="navbar_background">#820000</color>
+    <color name="top_bg">#FF5757</color>
 </resources>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
     android:layout_marginVertical="15dp"
-    android:backgroundTint="#FF5757"
+    android:backgroundTint="#FCF4A3"
     app:cardCornerRadius="10dp"
     app:cardElevation="6dp">
 
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="16/03/2024"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -40,7 +40,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="15dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="Gaji"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -52,7 +52,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="15dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="1.500.000"
                 android:textSize="20sp"/>
 
@@ -73,7 +73,7 @@
                 android:layout_marginBottom="40dp"
                 android:layout_gravity="end"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:text="Pendapatan"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
