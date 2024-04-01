@@ -34,10 +34,6 @@ class TransactionsFragment : Fragment() {
 
         _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-//        val textView: TextView = binding.tex
-//        transactionsViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
 
 
         return root
