@@ -1,13 +1,11 @@
 package com.example.bondoman_pdd
 
-import TransactionAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman_pdd.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -38,14 +36,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         // Ambil data dari database
-        val setupData = com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper(this)
-        val listTransactions = setupData.getTransactions(13521028)
 
-        println("R.id.recyclerview : ${R.id.recyclerview}")
-        val rvTransaction : RecyclerView = findViewById(R.id.recyclerview)
-//        rvTransaction.layoutManager = LinearLayoutManager(this)
-        println("Datas : $listTransactions")
-        rvTransaction.adapter = TransactionAdapter(listTransactions)
 
 
     }

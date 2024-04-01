@@ -1,5 +1,6 @@
 package com.example.bondoman_pdd.ui.transactions
 
+import TransactionAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman_pdd.AddTransactionActivity
 import com.example.bondoman_pdd.R
@@ -45,7 +47,14 @@ class TransactionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        rvTransaction.layoutManager = LinearLayoutManager(context)
+        val setupData = com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper(requireContext())
+        val listTransactions = setupData.getTransactions(13521028)
 
+        println("R.id.recyclerview : ${R.id.recyclerview}")
+        val rvTransaction : RecyclerView = view.findViewById(R.id.recyclerview)
+        rvTransaction.layoutManager = LinearLayoutManager(requireContext())
+        println("Datas : $listTransactions")
+        rvTransaction.adapter = TransactionAdapter(listTransactions)
 
         val addButton = view.findViewById<FloatingActionButton>(R.id.add_transaction_button)
         addButton.setOnClickListener {

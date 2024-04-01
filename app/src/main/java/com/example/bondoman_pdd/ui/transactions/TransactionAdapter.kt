@@ -24,7 +24,6 @@ class TransactionAdapter(private val dataSet: List<Transactions>) :
         holder.location.text = dataSet[position].lokasi
         holder.tipe.text = dataSet[position].kategori
         holder.tanggal.text = dataSet[position].tanggal
-        println("Data : ${dataSet[position]}")
     }
 
     override fun getItemCount(): Int {
@@ -33,9 +32,9 @@ class TransactionAdapter(private val dataSet: List<Transactions>) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Print isi dari R.id.foodmenu
-        val foodMenu: TextView = view.findViewById(R.id.foodmenu)
-        val nominal: TextView = view.findViewById(R.id.nominal)
         val location: TextView = view.findViewById(R.id.maps)
+        val foodMenu: TextView = view.findViewById(R.id.foodmenu)
+        val nominal: TextView = view.findViewById(R.id.harga)
         val tipe: TextView = view.findViewById(R.id.type)
         val tanggal : TextView = view.findViewById(R.id.tanggal)
     }
