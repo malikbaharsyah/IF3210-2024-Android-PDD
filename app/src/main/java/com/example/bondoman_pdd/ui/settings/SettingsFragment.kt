@@ -54,29 +54,30 @@ class SettingsFragment : Fragment() {
             SecureStorage.deleteToken(requireContext())
             SecureStorage.deleteEmail(requireContext())
             Log.d("SettingsFragment", "${SecureStorage.getToken(requireContext())} token removed")
+            logout()
+        }
 
-            // Create an Intent to navigate back to LoginActivity
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
+        // Create an Intent to navigate back to LoginActivity
+        val intent = Intent(requireActivity(), LoginActivity::class.java)
 
-            sendButton.setOnClickListener {
-                // Create an Intent to send an email
-                val recipient = "13521008@std.stei.itb.ac.id"
-                val subject = "Hello World"
-                val message = "Semoga harimu indah bro"
+        sendButton.setOnClickListener {
+            // Create an Intent to send an email
+            val recipient = "13521008@std.stei.itb.ac.id"
+            val subject = "Hello World"
+            val message = "Semoga harimu indah bro"
 
-                // Ni nanti ganti sama file xlsxnya kalo udah bisa
-                val fileUri = Uri.parse("content://path/to/your/file.xlsx")
+            // Ni nanti ganti sama file xlsxnya kalo udah bisa
+            val fileUri = Uri.parse("content://path/to/your/file.xlsx")
 
-                sendEmail(recipient, subject, message, fileUri)
-            }
+            sendEmail(recipient, subject, message, fileUri)
+        }
 
-            randomizeTransactionButton.setOnClickListener {
-                println("Randomize ditekan")
-                randomizeTransaction()
-                println("Randomize Transaction jalan")
-                Toast.makeText(requireContext(), "Randomize Transaction", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(context, AddTransactionActivity::class.java))
-            }
+        randomizeTransactionButton.setOnClickListener {
+            println("Randomize ditekan")
+            randomizeTransaction()
+            println("Randomize Transaction jalan")
+            Toast.makeText(requireContext(), "Randomize Transaction", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(context, AddTransactionActivity::class.java))
         }
     }
 
