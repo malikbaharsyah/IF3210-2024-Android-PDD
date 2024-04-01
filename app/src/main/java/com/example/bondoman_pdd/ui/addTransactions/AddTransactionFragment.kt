@@ -1,6 +1,7 @@
 package com.example.bondoman_pdd.ui.addTransactions
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +11,19 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.R
+import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
+import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
 
 class AddTransactionFragment : Fragment() {
 
-//    private lateinit var binding: FragmentAddTransactionBinding
-//    private lateinit var broadcastReceiver: MyBroadcastReceiver
-//    private var spinner: Spinner? = null
+    private lateinit var binding: ActivityAddTransactionBinding
+    private lateinit var broadcastReceiver: MyBroadcastReceiver
+    private var spinner: Spinner? = null
 
     companion object {
         fun newInstance() = AddTransactionFragment()
@@ -67,7 +71,6 @@ class AddTransactionFragment : Fragment() {
                     "Pembelian" -> {
                         Toast.makeText(requireContext(), "Pembelian dipilih", Toast.LENGTH_SHORT).show()
                     }
-                    // Add more cases if needed
                 }
             }
 
@@ -104,21 +107,24 @@ class AddTransactionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the BroadcastReceiver
-//        broadcastReceiver = MyBroadcastReceiver(binding)
-//
-//        // Register the BroadcastReceiver
-//        val filter = IntentFilter().apply {
-//            addAction(ACTION_RANDOMIZE_TRANSACTION)
-//            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-//        }
-//        val listenToBroadcastsFromOtherApps = true
-//        val receiverFlags = if (listenToBroadcastsFromOtherApps) {
-//            ContextCompat.RECEIVER_EXPORTED
-//        } else {
-//            ContextCompat.RECEIVER_NOT_EXPORTED
-//        }
-//        requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
+        binding = ActivityAddTransactionBinding.bind(view)
+
+
+//         Initialize the BroadcastReceiver
+        broadcastReceiver = MyBroadcastReceiver(binding)
+
+        // Register the BroadcastReceiver
+        val filter = IntentFilter().apply {
+            addAction(ACTION_RANDOMIZE_TRANSACTION)
+            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        }
+        val listenToBroadcastsFromOtherApps = true
+        val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+            ContextCompat.RECEIVER_EXPORTED
+        } else {
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        }
+        requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
 
         // Find the logout button by its ID
         val saveTransactionButton = view.findViewById<Button>(R.id.save_add_transaction)
@@ -139,10 +145,10 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
-    //    override fun onDestroyView() {
-//        super.onDestroyView()
-//
-//        // Unregister the BroadcastReceiver
-//        requireContext().unregisterReceiver(broadcastReceiver)
-//    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Unregister the BroadcastReceiver
+        requireContext().unregisterReceiver(broadcastReceiver)
+    }
 }
