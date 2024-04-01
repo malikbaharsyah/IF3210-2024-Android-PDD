@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
-import com.example.bondoman_pdd.databinding.FragmentAddTransactionBinding
+import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
 import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "MyBroadcastReceiver"
 
-class MyBroadcastReceiver(private val binding: FragmentAddTransactionBinding) : BroadcastReceiver() {
+class MyBroadcastReceiver(private val binding: ActivityAddTransactionBinding) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         println("BroadcastReceiver received intent with action: ${intent.action}")
         val action = intent.action
