@@ -48,7 +48,33 @@ class setup {
             return transactions
         }
 
-        // Fungsi untuk menghapus data transaksi berdasarkan nim
+        // Fungsi untuk mengembalikan total pemasukan
+        fun getTotalPemasukan(nim: Int): Float {
+            val db = this.readableDatabase
+            val query = "SELECT SUM(nominal) FROM transactions WHERE nim = $nim AND kategori = 'Penjualan' GROUP BY nim"
+            val result = db.rawQuery(query, null)
+            var totalPemasukan = 0.0F
+            if (result.moveToFirst()) {
+                totalPemasukan = result.getFloat(0)
+            }
+            result.close()
+            db.close()
+            return totalPemasukan
+        }
 
+        fun getTotalPengeluaran(nim: Int): Float {
+            val db = this.readableDatabase
+            val query = "SELECT SUM(nominal) FROM transactions WHERE nim = $nim AND kategori = 'Pembelian' GROUP BY nim"
+            val result = db.rawQuery(query, null)
+            var totalPengeluaran = 0.0F
+            if (result.moveToFirst()) {
+                totalPengeluaran = result.getFloat(0)
+            }
+            result.close()
+            db.close()
+            return totalPengeluaran
+        }
     }
+
+
 }
