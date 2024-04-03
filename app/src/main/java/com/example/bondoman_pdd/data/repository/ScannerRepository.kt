@@ -1,44 +1,50 @@
 package com.example.bondoman_pdd.data.repository
 
-import SecureStorage.getToken
+import SecureStorage
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.bondoman_pdd.data.model.ItemsResponse
+import android.graphics.Bitmap
+import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.bondoman_pdd.data.model.ScannerResponse
 import com.example.bondoman_pdd.data.service.RetrofitClient
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 
 class ScannerRepository {
-    fun scanner(context: Context, file: MultipartBody.Part): LiveData<Result<ItemsResponse>> {
-        val resultLiveData = MutableLiveData<Result<ItemsResponse>>()
 
-        val userToken = getToken(context)
-        if (userToken != null) {
-            RetrofitClient.scannerInstance.uploadBill("Bearer $userToken", file)
-                .enqueue(object : Callback<ItemsResponse> {
-                    override fun onResponse(
-                        call: Call<ItemsResponse>,
-                        response: Response<ItemsResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            resultLiveData.value = Result.success(response.body()!!)
-                        } else {
-                            resultLiveData.value =
-                                Result.failure(Throwable("Failed to upload file"))
-                        }
-                    }
+    fun uploadBill(bitmap: Bitmap, userToken: String, callback: (ScannerResponse?, Throwable?) -> Unit) {
+        // Prepare the image file to be uploaded
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val requestBody = byteArrayOutputStream.toByteArray()
+            .toRequestBody("image/jpeg".toMediaTypeOrNull())
+        val filePart = MultipartBody.Part.createFormData("file", "file.jpg", requestBody)
 
-                    override fun onFailure(call: Call<ItemsResponse>, t: Throwable) {
-                        resultLiveData.value = Result.failure(t)
-                    }
-                })
-        } else {
-            resultLiveData.value = Result.failure(Throwable("Failed to retrieve user token"))
-        }
+        // Make the API call using Retrofit
+        RetrofitClient.scannerInstance.uploadBill("Bearer $userToken", filePart).enqueue(object : Callback<ScannerResponse> {
+            override fun onResponse(call: Call<ScannerResponse>, response: Response<ScannerResponse>) {
+                if (response.isSuccessful) {
+                    // Callback with the response body
+                    Log.d("ScannerRepository", "Bill uploaded: ${response.body()}")
+                    callback(response.body(), null)
+                } else {
+                    // Callback with an error if response is not successful
+                    Log.d("ScannerRepository", "Failed to upload image: ${response.errorBody()?.string()}")
+                    callback(null, RuntimeException("Failed to upload image: ${response.errorBody()?.string()}"))
+                }
+            }
 
-        return resultLiveData
+            override fun onFailure(call: Call<ScannerResponse>, t: Throwable) {
+                // Callback with an error on request failure
+                callback(null, t)
+            }
+        })
     }
 }
