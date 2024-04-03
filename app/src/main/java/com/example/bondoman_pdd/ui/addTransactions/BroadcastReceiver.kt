@@ -22,6 +22,8 @@ class MyBroadcastReceiver(private val binding: ActivityAddTransactionBinding) : 
                     // Handle the randomize transaction action
                     println("Randomize transaction action received")
                     Toast.makeText(context, "Randomize transaction action received", Toast.LENGTH_SHORT).show()
+                    // Change activity judul to autofill
+                    binding.judul.setText("Makan Siang")
                 } else if (action == Intent.ACTION_AIRPLANE_MODE_CHANGED) {
                     val isTurnedOn = Settings.Global.getInt(context.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
                     if (isTurnedOn) {

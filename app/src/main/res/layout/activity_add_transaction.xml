@@ -35,7 +35,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="@string/judul"
@@ -116,19 +116,39 @@
             android:selectAllOnFocus="true"
             android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/save_add_transaction"
-            android:layout_width="180dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:textAllCaps="false"
-            android:backgroundTint="@color/button_background"
-            android:text="@string/saveButton"
-            android:textSize="20sp"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="60dp">
+
+            <Button
+                android:id="@+id/save_add_transaction"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/button_background"
+                android:text="@string/saveButton"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/randomize_transaction"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/button_background"
+                android:text="Randomize"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.bondoman_pdd.AddTransactionActivity
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
@@ -66,10 +67,10 @@ class AddTransactionFragment : Fragment() {
                 // Show toast based on the selected item
                 when (selectedItem) {
                     "Penjualan" -> {
-                        Toast.makeText(requireContext(), "Penjualan dipilih", Toast.LENGTH_SHORT).show()
+
                     }
                     "Pembelian" -> {
-                        Toast.makeText(requireContext(), "Pembelian dipilih", Toast.LENGTH_SHORT).show()
+
                     }
                 }
             }
@@ -100,17 +101,17 @@ class AddTransactionFragment : Fragment() {
                 }
             }
         }
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val randomize = view.findViewById<Button>(R.id.randomize_transaction)
+
         binding = ActivityAddTransactionBinding.bind(view)
 
-
-//         Initialize the BroadcastReceiver
+        //   Initialize the BroadcastReceiver
         broadcastReceiver = MyBroadcastReceiver(binding)
 
         // Register the BroadcastReceiver
@@ -143,6 +144,10 @@ class AddTransactionFragment : Fragment() {
             // Optionally, finish the current activity (fragment activity) if you want to clear it from the stack
             requireActivity().finish()
         }
+
+        randomize.setOnClickListener {
+            randomizeTransaction()
+        }
     }
 
     override fun onDestroyView() {
@@ -150,5 +155,13 @@ class AddTransactionFragment : Fragment() {
 
         // Unregister the BroadcastReceiver
         requireContext().unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun randomizeTransaction() {
+        val intent = Intent().also { intent ->
+            intent.setAction(ACTION_RANDOMIZE_TRANSACTION)
+        }
+        requireContext().sendBroadcast(intent)
+        println("Broadcast sent successfully")
     }
 }
