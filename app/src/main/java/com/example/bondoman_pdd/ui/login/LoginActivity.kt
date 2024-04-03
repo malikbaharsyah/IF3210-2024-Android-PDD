@@ -19,6 +19,7 @@ import com.example.bondoman_pdd.databinding.ActivityLoginBinding
 import com.example.bondoman_pdd.R
 import java.util.Objects
 import com.example.bondoman_pdd.data.repository.LoginRepository
+import com.example.bondoman_pdd.data.model.LoggedInUser
 
 class LoginActivity : AppCompatActivity() {
 
@@ -71,6 +72,8 @@ class LoginActivity : AppCompatActivity() {
                 // Proceed to MainActivity
                 startActivity(Intent(this, MainActivity::class.java))
                 setResult(Activity.RESULT_OK)
+                // Simpan data user ke loggedInUser
+
                 finish()
             }, onFailure = {
                 // Handle login failure
