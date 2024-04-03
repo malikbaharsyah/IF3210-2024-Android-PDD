@@ -1,7 +1,8 @@
 package com.example.bondoman_pdd.data.model
 
-// Menyimpan data user yang sedang login ke aplikasi static
-
+/**
+ * Data class that captures user information for logged in users retrieved from LoginRepository
+ */
 data class LoggedInUser(
     val userId: String,
     val displayName: String
