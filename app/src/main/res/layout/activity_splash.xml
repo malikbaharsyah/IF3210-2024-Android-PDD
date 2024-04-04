@@ -32,14 +32,6 @@
             android:layout_gravity="center"
             android:src="@drawable/bondoword"/>
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/bondologo"
-            android:layout_marginTop="100dp"/>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

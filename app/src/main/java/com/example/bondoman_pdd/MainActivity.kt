@@ -25,6 +25,7 @@ import com.example.bondoman_pdd.databinding.ActivityMainBinding
 import com.example.bondoman_pdd.data.utils.NetworkUtils
 import com.example.bondoman_pdd.ui.login.LoginActivity
 import java.util.Objects
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -109,12 +110,12 @@ class MainActivity : AppCompatActivity() {
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent)
     }
 
-}
 
-class TokenCheckReceiver(private val callback: (Boolean) -> Unit) : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        intent?.getBooleanExtra(TokenCheckService.EXTRA_IS_SUCCESSFUL, false)?.let { result ->
-            callback(result)
+    class TokenCheckReceiver(private val callback: (Boolean) -> Unit) : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.getBooleanExtra(TokenCheckService.EXTRA_IS_SUCCESSFUL, false)?.let { result ->
+                callback(result)
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ import com.example.bondoman_pdd.R
 import java.util.Objects
 import com.example.bondoman_pdd.data.repository.LoginRepository
 import com.example.bondoman_pdd.data.utils.NetworkUtils
+import com.example.bondoman_pdd.data.model.LoggedInUser
 
 class LoginActivity : AppCompatActivity() {
 
