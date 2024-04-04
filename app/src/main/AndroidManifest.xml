@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,21 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bondoman_pdd"
         tools:targetApi="31">
-        <activity
-            android:name=".AddTransactionActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Bondoman_pdd"
-            android:label="Add Transaction" />
-
-        <receiver
-            android:name=".ui.addTransactions.MyBroadcastReceiver"
-            android:exported="false">
+        <receiver android:name=".ui.addTransactions.MyBroadcastReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.AIRPLANE_MODE" />
                 <action android:name="android.intent.action.RANDOMIZE_TRANSACTION" />
             </intent-filter>
         </receiver>
-
         <activity
             android:name=".MainActivity"
             android:exported="false"
@@ -48,8 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".data.service.TokenCheckService" />
+        <service android:name=".data.service.TokenCheckService"/>
     </application>
 
 </manifest>
