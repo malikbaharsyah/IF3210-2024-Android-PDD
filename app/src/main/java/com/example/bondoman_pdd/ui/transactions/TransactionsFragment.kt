@@ -9,10 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.bondoman_pdd.AddTransactionActivity
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.FragmentTransactionsBinding
-//import com.example.bondoman_pdd.ui.addTransactions.AddTransactionFragment
+import com.example.bondoman_pdd.ui.addTransactions.AddTransactionFragment
 import com.example.bondoman_pdd.ui.chart.ChartFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -48,9 +47,7 @@ class TransactionsFragment : Fragment() {
 
         val addButton = view.findViewById<FloatingActionButton>(R.id.add_transaction_button)
         addButton.setOnClickListener {
-           // Change to add transaction activity
-            val intent = Intent(context, AddTransactionActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_transactionsFragment_to_addTransactionFragment)
         }
     }
 
