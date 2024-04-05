@@ -43,8 +43,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_transactions, R.id.navigation_scanner, R.id.navigation_chart, R.id.navigation_settings
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        // Clear the token and other logout logic
+        // Clear the token
         SecureStorage.deleteToken(this)
         SecureStorage.deleteEmail(this)
         startActivity(Intent(this, LoginActivity::class.java))
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         scheduleTokenCheck()
-        // Register BroadcastReceiver to receive the service's messages
+        // Register BroadcastReceiver
         LocalBroadcastManager.getInstance(this).registerReceiver(
             TokenCheckReceiver { result ->
                 if (!result) {
@@ -91,15 +90,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun scheduleTokenCheck() {
         val intent = Intent(applicationContext, TokenCheckService::class.java)
-        // Use FLAG_IMMUTABLE for PendingIntent if it does not need to be altered
-        val flags =
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+
+        // Set up the PendingIntent repeating alarm
+        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         pendingIntent = PendingIntent.getService(applicationContext, 0, intent, flags)
 
         alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val interval = 60000L // 1 minute in milliseconds
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent)
+        // Schedule the repeating alarm
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval, interval, pendingIntent)
     }
 
     private fun showTokenExpired() {
@@ -107,10 +107,10 @@ class MainActivity : AppCompatActivity() {
             setTitle("Session Expired")
             setMessage("Your session has expired. Please log in again.")
             setPositiveButton("OK") { _, _ ->
-                logout() // Call the logout method when the "OK" button is pressed
+                logout()
             }
-            setCancelable(false) // Prevent the dialog from being dismissed without user action
-            show() // Show the dialog to the user
+            setCancelable(false)
+            show()
         }
     }
 
