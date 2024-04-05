@@ -5,13 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
+import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
 import com.example.bondoman_pdd.databinding.FragmentAddTransactionBinding
 import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
 import com.google.android.material.snackbar.Snackbar
 
 private const val TAG = "MyBroadcastReceiver"
 
-class MyBroadcastReceiver(private val binding: FragmentAddTransactionBinding) : BroadcastReceiver() {
+class MyBroadcastReceiver(private val binding: ActivityAddTransactionBinding) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         println("BroadcastReceiver received intent with action: ${intent.action}")
         val action = intent.action
@@ -21,6 +22,7 @@ class MyBroadcastReceiver(private val binding: FragmentAddTransactionBinding) : 
                 (if (action == ACTION_RANDOMIZE_TRANSACTION) {
                     // Handle the randomize transaction action
                     println("Randomize transaction action received")
+                    binding.judul.setText("Makan Siang")
                     Toast.makeText(context, "Randomize transaction action received", Toast.LENGTH_SHORT).show()
                     Snackbar.make(binding.root, "Randomize transaction action received", Snackbar.LENGTH_SHORT).show()
                 } else if (action == Intent.ACTION_AIRPLANE_MODE_CHANGED) {

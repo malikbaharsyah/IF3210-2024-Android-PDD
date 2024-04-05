@@ -17,9 +17,4 @@ class AddTransactionActivity : AppCompatActivity() {
 
 
     }
-
-
-
-
-
 }

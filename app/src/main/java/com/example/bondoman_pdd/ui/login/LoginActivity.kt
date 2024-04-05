@@ -17,10 +17,9 @@ import android.widget.Toast
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.databinding.ActivityLoginBinding
 import com.example.bondoman_pdd.R
-import java.util.Objects
 import com.example.bondoman_pdd.data.repository.LoginRepository
 import com.example.bondoman_pdd.data.utils.NetworkUtils
-import com.example.bondoman_pdd.data.model.LoggedInUser
+import java.util.Objects
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        Objects.requireNonNull(getSupportActionBar())?.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.top_bg)))
+        Objects.requireNonNull(getSupportActionBar())?.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.top_bg)))
 
         val username = binding.judul
         val password = binding.password

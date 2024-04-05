@@ -19,4 +19,7 @@ object RetrofitClient {
     val tokenInstance: TokenService by lazy {
         instance.create(TokenService::class.java)
     }
+    val scannerInstance: ScannerService by lazy {
+        instance.create(ScannerService::class.java)
+    }
 }
