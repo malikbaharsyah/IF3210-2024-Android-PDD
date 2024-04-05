@@ -102,6 +102,25 @@ class AddTransactionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val randomize = view.findViewById<Button>(R.id.randomize_transaction)
+        binding = ActivityAddTransactionBinding.bind(view)
+
+        //   Initialize the BroadcastReceiver
+        broadcastReceiver = MyBroadcastReceiver(binding)
+
+        // Register the BroadcastReceiver
+        val filter = IntentFilter().apply {
+            addAction(ACTION_RANDOMIZE_TRANSACTION)
+            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        }
+        val listenToBroadcastsFromOtherApps = true
+        val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+            ContextCompat.RECEIVER_EXPORTED
+        } else {
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        }
+        requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
+
         // Find the logout button by its ID
         val saveTransactionButton = view.findViewById<Button>(R.id.save_add_transaction)
 
@@ -117,43 +136,36 @@ class AddTransactionFragment : Fragment() {
             val tanggal = Calendar.getInstance().time.toString()
 
             // Insert data ke database
-//            insertTransaction(Transactions(0, 123456789, judul, nominal, kategori, tanggal, lokasi))
+            // insertTransaction(Transactions(0, 123456789, judul, nominal, kategori, tanggal, lokasi))
             val db = DatabaseHelper(requireContext())
-            db.insertTransaction(Transactions(0, 13521028, judul, nominal, kategori, tanggal, lokasi))
+            db.insertTransaction(
+                Transactions(
+                    0,
+                    13521028,
+                    judul,
+                    nominal,
+                    kategori,
+                    tanggal,
+                    lokasi
+                )
+            )
             // Show tabel transaksi di dalam logcat
             // Create an Intent to navigate back to LoginActivity
-
             val intent = Intent(requireActivity(), MainActivity::class.java)
-
-            // Add flags to clear the activity stack so that LoginActivity becomes the top activity
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-//            val randomize = view.findViewById<Button>(R.id.randomize_transaction)
-
-//            binding = ActivityAddTransactionBinding.bind(view)
-
-            //   Initialize the BroadcastReceiver
-//            broadcastReceiver = MyBroadcastReceiver(binding)
-
-//            // Register the BroadcastReceiver
-//            val filter = IntentFilter().apply {
-//                addAction(ACTION_RANDOMIZE_TRANSACTION)
-//                addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-//            }
-//            val listenToBroadcastsFromOtherApps = true
-//            val receiverFlags = if (listenToBroadcastsFromOtherApps) {
-//                ContextCompat.RECEIVER_EXPORTED
-//            } else {
-//                ContextCompat.RECEIVER_NOT_EXPORTED
-//            }
-//            requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
-
-
-            // Start LoginActivity
             startActivity(intent)
-
-            // Optionally, finish the current activity (fragment activity) if you want to clear it from the stack
             requireActivity().finish()
         }
+
+        randomize.setOnClickListener {
+            randomizeTransaction()
+        }
+    }
+    private fun randomizeTransaction() {
+        val intent = Intent().also { intent ->
+            intent.setAction(ACTION_RANDOMIZE_TRANSACTION)
+        }
+        requireContext().sendBroadcast(intent)
+        println("Broadcast sent successfully")
     }
 }
