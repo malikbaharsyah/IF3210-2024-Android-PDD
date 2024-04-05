@@ -8,8 +8,7 @@ Bondoman merupakan aplikasi untuk menyediakan data terkait histori penjualan dan
 - Gson
 
 ## Screenshots
-
-
+![ss](Screenshot_2024-04-05_164224.png)
 
 ## Team Members
 <table>
