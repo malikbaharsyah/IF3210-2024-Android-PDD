@@ -68,20 +68,13 @@ class MainActivity : AppCompatActivity() {
         if (!NetworkUtils.isOnline(this)) {
             NetworkUtils.showNoInternetConnectionPopup(this)
         }
+
         scheduleTokenCheck()
         // Register BroadcastReceiver to receive the service's messages
         LocalBroadcastManager.getInstance(this).registerReceiver(
             TokenCheckReceiver { result ->
                 if (!result) {
-                    AlertDialog.Builder(this@MainActivity).apply {
-                        setTitle("Session Expired")
-                        setMessage("Your session has expired. Please log in again.")
-                        setPositiveButton("OK") { _, _ ->
-                            logout() // Call the logout method when the "OK" button is pressed
-                        }
-                        setCancelable(false) // Prevent the dialog from being dismissed without user action
-                        show() // Show the dialog to the user
-                    }
+                    showTokenExpired()
                 } else {
                     Log.d("MainActivity", "Token still valid")
                 }
@@ -109,6 +102,17 @@ class MainActivity : AppCompatActivity() {
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent)
     }
 
+    private fun showTokenExpired() {
+        AlertDialog.Builder(this@MainActivity).apply {
+            setTitle("Session Expired")
+            setMessage("Your session has expired. Please log in again.")
+            setPositiveButton("OK") { _, _ ->
+                logout() // Call the logout method when the "OK" button is pressed
+            }
+            setCancelable(false) // Prevent the dialog from being dismissed without user action
+            show() // Show the dialog to the user
+        }
+    }
 
     class TokenCheckReceiver(private val callback: (Boolean) -> Unit) : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
