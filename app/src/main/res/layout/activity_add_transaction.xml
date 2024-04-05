@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".ui.main.AddTransactionFragment">
+
+    <LinearLayout
+        android:id="@+id/container1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context=".ui.login.LoginActivity">
+
+        <TextView
+            android:id="@+id/judulLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/judul"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/judul"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:autofillHints="@string/judul"
+            android:hint="@string/judul"
+            android:padding="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@android:color/black"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/nominalLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nominal"
+            android:textSize="25sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="40dp"/>
+
+        <EditText
+            android:id="@+id/nominal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:autofillHints="@string/nominal"
+            android:hint="@string/nominal"
+            android:padding="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionDone"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/kategoriLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kategori"
+            android:textSize="25sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="40dp"/>
+
+        <Spinner
+            android:id="@+id/kategori"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/lokasiLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lokasi"
+            android:textSize="25sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="40dp"/>
+
+        <EditText
+            android:id="@+id/lokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:autofillHints="@string/lokasi"
+            android:hint="@string/lokasi"
+            android:padding="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionDone"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/save_add_transaction"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/button_background"
+            android:text="@string/saveButton"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

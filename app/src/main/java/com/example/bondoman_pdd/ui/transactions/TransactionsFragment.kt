@@ -15,7 +15,7 @@ import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.data.model.Transactions
 import com.example.bondoman_pdd.databinding.FragmentTransactionsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
+import com.example.bondoman_pdd.AddTransactionActivity
 class TransactionsFragment : Fragment() {
     private var _binding: FragmentTransactionsBinding? = null
 
@@ -59,9 +59,9 @@ class TransactionsFragment : Fragment() {
         val addButton = view.findViewById<FloatingActionButton>(R.id.add_transaction_button)
         addButton.setOnClickListener {
 //            findNavController().navigate(R.id.action_transactionsFragment_to_addTransactionFragment)
-//            val intent = Intent(requireContext(), AddTransactionActivity::class.java)
-//            startActivity(intent)
-            findNavController().navigate(R.id.action_transactionsFragment_to_addTransactionFragment)
+            val intent = Intent(requireContext(), AddTransactionActivity::class.java)
+            startActivity(intent)
+//            findNavController().navigate(R.id.action_transactionsFragment_to_addTransactionFragment)
         }
     }
 
