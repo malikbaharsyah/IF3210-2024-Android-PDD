@@ -120,19 +120,42 @@
             android:selectAllOnFocus="true"
             android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/save_add_transaction"
-            android:layout_width="180dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:textAllCaps="false"
-            android:backgroundTint="@color/button_background"
-            android:text="@string/saveButton"
-            android:textSize="20sp"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/save_add_transaction"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/button_background"
+                android:text="@string/saveButton"
+                android:textSize="15sp"/>
+
+            <Button
+                android:id="@+id/randomize_transaction"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/button_background"
+                android:text="Randomize"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.bondoman_pdd.AddTransactionActivity
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.databinding.FragmentSettingsBinding
 import com.example.bondoman_pdd.ui.login.LoginActivity
@@ -128,14 +129,15 @@ class SettingsFragment : Fragment() {
             val fileUri = Uri.parse(filePath)
 
             sendEmail(recipient, subject, message, fileUri)
-        }
-
-        randomizeTransactionButton.setOnClickListener {
-            println("Randomize ditekan")
-            randomizeTransaction()
-            println("Randomize Transaction jalan")
-            Toast.makeText(requireContext(), "Randomize Transaction", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_settingsFragment_to_addTransactionFragment)
+            
+            randomizeTransactionButton.setOnClickListener {
+                println("Randomize ditekan")
+                randomizeTransaction()
+                println("Randomize Transaction jalan")
+                Toast.makeText(requireContext(), "Randomize Transaction", Toast.LENGTH_SHORT).show()
+                val intent = Intent(requireContext(), AddTransactionActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         saveTransactionButton.setOnClickListener {
