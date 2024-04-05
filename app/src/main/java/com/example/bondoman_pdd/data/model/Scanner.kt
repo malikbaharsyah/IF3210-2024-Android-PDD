@@ -11,5 +11,5 @@ data class Items(
 data class ItemsInfo(
     val name: String,
     val qty: Int,
-    val price: Double
+    val price: Float
 )
