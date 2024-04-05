@@ -1,5 +1,6 @@
 package com.example.bondoman_pdd.ui.transactions
 
+import SecureStorage
 import TransactionAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -48,7 +49,12 @@ class TransactionsFragment : Fragment() {
 
 //        rvTransaction.layoutManager = LinearLayoutManager(context)
         val setupData = com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper(requireContext())
-        val listTransactions = setupData.getTransactions(13521028)
+        val email = SecureStorage.getEmail(requireContext())
+        // Ambil 8 karakter pertama dari email
+        val id = email?.substring(0, 8)
+        val nim = id?.toInt()
+        println("NIM : $nim")
+        val listTransactions = setupData.getTransactions(nim!!)
 
         println("R.id.recyclerview : ${R.id.recyclerview}")
         val rvTransaction : RecyclerView = view.findViewById(R.id.recyclerview)

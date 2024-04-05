@@ -1,6 +1,7 @@
 package com.example.bondoman_pdd.ui.main
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +11,24 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.R
 import com.example.bondoman_pdd.data.model.Transactions
 import com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper
+import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
+import com.example.bondoman_pdd.ui.addTransactions.MyBroadcastReceiver
+import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
 import java.util.Calendar
 
 class AddTransactionFragment : Fragment() {
+
+    private lateinit var binding: ActivityAddTransactionBinding
+    private lateinit var broadcastReceiver: MyBroadcastReceiver
+    private var spinner: Spinner? = null
+
 
     companion object {
         fun newInstance() = AddTransactionFragment()
@@ -117,6 +127,27 @@ class AddTransactionFragment : Fragment() {
 
             // Add flags to clear the activity stack so that LoginActivity becomes the top activity
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+//            val randomize = view.findViewById<Button>(R.id.randomize_transaction)
+
+//            binding = ActivityAddTransactionBinding.bind(view)
+
+            //   Initialize the BroadcastReceiver
+//            broadcastReceiver = MyBroadcastReceiver(binding)
+
+//            // Register the BroadcastReceiver
+//            val filter = IntentFilter().apply {
+//                addAction(ACTION_RANDOMIZE_TRANSACTION)
+//                addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+//            }
+//            val listenToBroadcastsFromOtherApps = true
+//            val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+//                ContextCompat.RECEIVER_EXPORTED
+//            } else {
+//                ContextCompat.RECEIVER_NOT_EXPORTED
+//            }
+//            requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
+
 
             // Start LoginActivity
             startActivity(intent)

@@ -15,4 +15,9 @@ class AddTransactionActivity : AppCompatActivity() {
                 .commitNow()
         }
     }
+
+
+
+
+
 }
