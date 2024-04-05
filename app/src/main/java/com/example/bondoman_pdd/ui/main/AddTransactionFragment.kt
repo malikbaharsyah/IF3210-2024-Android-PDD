@@ -1,7 +1,12 @@
 package com.example.bondoman_pdd.ui.main
 
+import android.annotation.SuppressLint
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +16,9 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.bondoman_pdd.MainActivity
@@ -21,6 +28,7 @@ import com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper
 import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
 import com.example.bondoman_pdd.ui.addTransactions.MyBroadcastReceiver
 import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
+import java.text.SimpleDateFormat
 import java.util.Calendar
 
 class AddTransactionFragment : Fragment() {
@@ -99,6 +107,7 @@ class AddTransactionFragment : Fragment() {
         return view
     }
 
+    @SuppressLint("CutPasteId", "SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -124,6 +133,37 @@ class AddTransactionFragment : Fragment() {
         // Find the logout button by its ID
         val saveTransactionButton = view.findViewById<Button>(R.id.save_add_transaction)
 
+        val lokasi_textview = view.findViewById<TextView>(R.id.lokasi)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        } else {
+            val locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, object : LocationListener {
+                @SuppressLint("SetTextI18n")
+                override fun onLocationChanged(location: Location) {
+                    // Ambil kota
+                    val geocoder = android.location.Geocoder(requireContext())
+                    val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    println(addresses)
+                    var cityName = addresses?.get(0)?.subAdminArea
+                    if (cityName?.substring(0, 4) == "Kota") {
+                        cityName = cityName.subSequence(5, cityName.length).toString()
+                    } else if (cityName?.substring(0, 9) == "Kabupaten") {
+                        cityName = cityName.subSequence(10, cityName.length).toString()
+                    }
+                    lokasi_textview.text = "$cityName"
+                }
+            })
+        }
+
         // Set click listener on the logout button
         saveTransactionButton.setOnClickListener {
             // Masukan data ke database
@@ -132,23 +172,22 @@ class AddTransactionFragment : Fragment() {
             val nominal = view.findViewById<TextView>(R.id.nominal).text.toString().toFloat()
             val kategori = view.findViewById<Spinner>(R.id.kategori).selectedItem.toString()
             val lokasi = view.findViewById<TextView>(R.id.lokasi).text.toString()
+
             // Untuk tanggal bisa menggunakan tanggal sekarang memakai Calendar.getInstance().time.toString()
-            val tanggal = Calendar.getInstance().time.toString()
+            val timeNow = Calendar.getInstance().time
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val tanggal = dateFormat.format(timeNow).toString()
+            println("Tanggal : $tanggal")
 
             // Insert data ke database
             // insertTransaction(Transactions(0, 123456789, judul, nominal, kategori, tanggal, lokasi))
             val db = DatabaseHelper(requireContext())
-            db.insertTransaction(
-                Transactions(
-                    0,
-                    13521028,
-                    judul,
-                    nominal,
-                    kategori,
-                    tanggal,
-                    lokasi
-                )
-            )
+            val email = SecureStorage.getEmail(requireContext())
+            // Ambil 8 karakter pertama dari email
+            val id = email?.substring(0, 8)
+            val nim = id?.toInt()
+            println("NIM : $nim")
+            db.insertTransaction(Transactions(0, nim!!, judul, nominal, kategori, tanggal, lokasi))
             // Show tabel transaksi di dalam logcat
             // Create an Intent to navigate back to LoginActivity
             val intent = Intent(requireActivity(), MainActivity::class.java)
