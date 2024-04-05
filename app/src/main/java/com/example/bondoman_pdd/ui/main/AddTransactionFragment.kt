@@ -128,25 +128,25 @@ class AddTransactionFragment : Fragment() {
             // Add flags to clear the activity stack so that LoginActivity becomes the top activity
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-//            val randomize = view.findViewById<Button>(R.id.randomize_transaction)
+            val randomize = view.findViewById<Button>(R.id.randomize_transaction)
 
-//            binding = ActivityAddTransactionBinding.bind(view)
+            binding = ActivityAddTransactionBinding.bind(view)
 
             //   Initialize the BroadcastReceiver
-//            broadcastReceiver = MyBroadcastReceiver(binding)
+            broadcastReceiver = MyBroadcastReceiver(binding)
 
-//            // Register the BroadcastReceiver
-//            val filter = IntentFilter().apply {
-//                addAction(ACTION_RANDOMIZE_TRANSACTION)
-//                addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-//            }
-//            val listenToBroadcastsFromOtherApps = true
-//            val receiverFlags = if (listenToBroadcastsFromOtherApps) {
-//                ContextCompat.RECEIVER_EXPORTED
-//            } else {
-//                ContextCompat.RECEIVER_NOT_EXPORTED
-//            }
-//            requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
+            // Register the BroadcastReceiver
+            val filter = IntentFilter().apply {
+                addAction(ACTION_RANDOMIZE_TRANSACTION)
+                addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+            }
+            val listenToBroadcastsFromOtherApps = true
+            val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+                ContextCompat.RECEIVER_EXPORTED
+            } else {
+                ContextCompat.RECEIVER_NOT_EXPORTED
+            }
+            requireContext().registerReceiver(broadcastReceiver, filter, receiverFlags)
 
 
             // Start LoginActivity
@@ -155,5 +155,12 @@ class AddTransactionFragment : Fragment() {
             // Optionally, finish the current activity (fragment activity) if you want to clear it from the stack
             requireActivity().finish()
         }
+    }
+    private fun randomizeTransaction() {
+        val intent = Intent().also { intent ->
+            intent.setAction(ACTION_RANDOMIZE_TRANSACTION)
+        }
+        requireContext().sendBroadcast(intent)
+        println("Broadcast sent successfully")
     }
 }
