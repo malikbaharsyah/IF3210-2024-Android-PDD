@@ -133,7 +133,13 @@ class AddTransactionFragment : Fragment() {
                     // Ambil kota
                     val geocoder = android.location.Geocoder(requireContext())
                     val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    val cityName = addresses?.get(0)?.locality
+                    println(addresses)
+                    var cityName = addresses?.get(0)?.subAdminArea
+                    if (cityName?.substring(0, 4) == "Kota") {
+                        cityName = cityName.subSequence(5, cityName.length).toString()
+                    } else if (cityName?.substring(0, 9) == "Kabupaten") {
+                        cityName = cityName.subSequence(10, cityName.length).toString()
+                    }
                     lokasi_textview.text = "$cityName"
                 }
             })
