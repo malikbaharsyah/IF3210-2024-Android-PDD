@@ -53,12 +53,21 @@ class SettingsFragment : Fragment() {
             // delete token
             SecureStorage.deleteToken(requireContext())
             SecureStorage.deleteEmail(requireContext())
-            Log.d("SettingsFragment", "${SecureStorage.getToken(requireContext())} token removed")
+            Log.d("SettingsFragment","${SecureStorage.getToken(requireContext())} token removed")
 
-            // Create an Intent to navigate back to LoginActivity
             val intent = Intent(requireActivity(), LoginActivity::class.java)
+
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            // Start LoginActivity
+            startActivity(intent)
+
+            requireActivity().finish()
+
+            Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_LONG).show()
         }
-            sendButton.setOnClickListener {
+
+    sendButton.setOnClickListener {
                 // Create an Intent to send an email
                 val recipient = "13521008@std.stei.itb.ac.id"
                 val subject = "Hello World"
