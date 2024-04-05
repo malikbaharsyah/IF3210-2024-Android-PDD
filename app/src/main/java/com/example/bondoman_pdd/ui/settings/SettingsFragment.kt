@@ -4,6 +4,7 @@ import SecureStorage
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -81,9 +82,10 @@ class SettingsFragment : Fragment() {
                 }
             }
 
-        }.write(File(filePath).toString())
+        }.write(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), filePath).toString())
         println(filePath)
-        // Buka file excel yang sudah disimpan
+
+    // Buka file excel yang sudah disimpan
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -116,7 +118,7 @@ class SettingsFragment : Fragment() {
             val id = email?.substring(0, 8)
             val nim = id?.toInt()
             println("NIM : $nim")
-            val filePath = context?.filesDir?.path + "/" + nim.toString() + "transactions.xlsx"
+            val filePath = nim.toString() + "transactions.xlsx"
             saveTransactionToExcel(filePath, nim!!)
 
             // Create an Intent to send an email
@@ -125,7 +127,7 @@ class SettingsFragment : Fragment() {
             val message = "Semoga harimu indah bro"
 
             // Ni nanti ganti sama file xlsxnya kalo udah bisa
-            val fileUri = Uri.parse(filePath)
+            val fileUri = Uri.parse(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), filePath).toString())
 
             sendEmail(recipient, subject, message, fileUri)
         }
@@ -143,7 +145,8 @@ class SettingsFragment : Fragment() {
             val id = email?.substring(0, 8)
             val nim = id?.toInt()
             println("NIM : $nim")
-            val filePath = context?.filesDir?.path + "/" + nim.toString() + "transactions.xlsx"
+
+            val filePath = nim.toString() + "transactions.xlsx"
             saveTransactionToExcel(filePath, nim!!)
 
             Toast.makeText(requireContext(), "Save Transaction", Toast.LENGTH_SHORT).show()
