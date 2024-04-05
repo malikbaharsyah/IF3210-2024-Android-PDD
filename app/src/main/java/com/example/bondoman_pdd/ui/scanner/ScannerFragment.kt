@@ -5,11 +5,18 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +26,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,11 +37,14 @@ import com.example.bondoman_pdd.databinding.FragmentScannerBinding
 import com.example.bondoman_pdd.ui.login.LoginActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class ScannerFragment : Fragment() {
 
     private var _binding: FragmentScannerBinding? = null
     private val binding get() = _binding!!
+
+    private var currentLocation: String? = null
 
     private lateinit var imageView: ImageView
     private lateinit var buttonCamera: Button
@@ -90,9 +101,9 @@ class ScannerFragment : Fragment() {
             val timeNow = Calendar.getInstance().time
             val dateFormat = SimpleDateFormat("yyyy-MM-dd")
             val tanggal = dateFormat.format(timeNow)
-
+            val location = currentLocation ?: "Unknown Location"
             items.forEach { item ->
-                db.insertTransaction(Transactions(0, nim, item.name, item.price, "Penjualan", tanggal, "kos joel"))
+                db.insertTransaction(Transactions(0, nim, item.name, item.price, "Penjualan", tanggal, location))
             }
             Toast.makeText(context, "Bill read success", Toast.LENGTH_LONG).show()
         } else {
@@ -139,17 +150,6 @@ class ScannerFragment : Fragment() {
         _binding = null
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSIONS_REQUEST_CODE && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-            // Permissions granted, you can safely open camera or gallery
-        } else {
-            // Handle permission denial
-            Toast.makeText(context, "Permissions are required to proceed.", Toast.LENGTH_LONG).show()
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun checkPermissions() {
         val requiredPermissions = arrayOf(
@@ -164,6 +164,7 @@ class ScannerFragment : Fragment() {
         if (permissionsNotGranted.isNotEmpty()) {
             requestPermissions(permissionsNotGranted, PERMISSIONS_REQUEST_CODE)
         }
+        checkLocationPermission()
     }
 
     private fun uploadImage(bitmap: Bitmap) {
@@ -191,9 +192,64 @@ class ScannerFragment : Fragment() {
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation() {
+        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                Log.d("ScannerFragment", "Location changed: ${location.latitude}, ${location.longitude}")
+                val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                val cityName = addresses?.getOrNull(0)?.locality ?: "Unknown Location"
+                Log.d("ScannerFragment", "Location Name: $cityName")
+                currentLocation = cityName
+                locationManager.removeUpdates(this)
+            }
+        }
+
+        // Request updates with a timeout
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
+        Handler(Looper.getMainLooper()).postDelayed({
+            locationManager.removeUpdates(locationListener)
+            if (currentLocation == null) {
+                Log.d("ScannerFragment", "Failed to fetch location within timeout")
+            }
+        }, 10000) // Wait 10 seconds for a location update
+    }
+
+
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        } else {
+            getCurrentLocation()
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_CODE, LOCATION_PERMISSION_REQUEST_CODE -> {
+                val allPermissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+                if (allPermissionsGranted) {
+                    if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+                        getCurrentLocation()
+                    }
+                    // Add additional actions if needed for other permissions
+                } else {
+                    Toast.makeText(context, "Permissions are required to proceed.", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     companion object {
         private const val REQUEST_IMAGE_CAPTURE = 1
         private const val REQUEST_PICK_IMAGE = 2
         private const val PERMISSIONS_REQUEST_CODE = 123
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 }
