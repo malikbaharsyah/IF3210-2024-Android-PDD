@@ -28,6 +28,7 @@ import com.example.bondoman_pdd.data.transactions.setup.DatabaseHelper
 import com.example.bondoman_pdd.databinding.ActivityAddTransactionBinding
 import com.example.bondoman_pdd.ui.addTransactions.MyBroadcastReceiver
 import com.example.bondoman_pdd.ui.settings.ACTION_RANDOMIZE_TRANSACTION
+import java.text.SimpleDateFormat
 import java.util.Calendar
 
 class AddTransactionFragment : Fragment() {
@@ -106,7 +107,7 @@ class AddTransactionFragment : Fragment() {
         return view
     }
 
-    @SuppressLint("CutPasteId")
+    @SuppressLint("CutPasteId", "SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -148,7 +149,10 @@ class AddTransactionFragment : Fragment() {
             val lokasi = view.findViewById<TextView>(R.id.lokasi).text.toString()
 
             // Untuk tanggal bisa menggunakan tanggal sekarang memakai Calendar.getInstance().time.toString()
-            val tanggal = Calendar.getInstance().time.toString()
+            val timeNow = Calendar.getInstance().time
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val tanggal = dateFormat.format(timeNow).toString()
+            println("Tanggal : $tanggal")
 
             // Insert data ke database
 //            insertTransaction(Transactions(0, 123456789, judul, nominal, kategori, tanggal, lokasi))
