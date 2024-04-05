@@ -1,5 +1,6 @@
 package com.example.bondoman_pdd.ui.scanner
 
+import SecureStorage
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
@@ -27,14 +28,14 @@ class ScannerFragment : Fragment() {
     private lateinit var imageView: ImageView
     private lateinit var buttonCamera: Button
     private lateinit var buttonGallery: Button
+    private lateinit var scannerViewModel: ScannerViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val scannerViewModel =
-            ViewModelProvider(this).get(ScannerViewModel::class.java)
+        scannerViewModel = ViewModelProvider(this).get(ScannerViewModel::class.java)
 
         _binding = FragmentScannerBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -54,16 +55,24 @@ class ScannerFragment : Fragment() {
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        checkPermissions()
+    }
+
+
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
     }
 
     private fun openGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(galleryIntent, REQUEST_PICK_IMAGE)
+        val pickPhotoIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(pickPhotoIntent, REQUEST_PICK_IMAGE)
     }
 
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -71,47 +80,62 @@ class ScannerFragment : Fragment() {
                 REQUEST_IMAGE_CAPTURE -> {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     imageView.setImageBitmap(imageBitmap)
+                    uploadImage(imageBitmap)
                 }
                 REQUEST_PICK_IMAGE -> {
-                    val selectedImageUri = data?.data
-                    imageView.setImageURI(selectedImageUri)
+                    val imageUri = data?.data
+                    imageView.setImageURI(imageUri)
+                    imageUri?.let { uri ->
+                        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                        uploadImage(bitmap)
+                    }
                 }
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CAMERA_PERMISSION || requestCode == REQUEST_GALLERY_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (requestCode == REQUEST_CAMERA_PERMISSION) {
-                    openCamera()
-                } else if (requestCode == REQUEST_GALLERY_PERMISSION) {
-                    openGallery()
-                }
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Permission denied",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        if (requestCode == PERMISSIONS_REQUEST_CODE && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+            // Permissions granted, you can safely open camera or gallery
+        } else {
+            // Handle permission denial
+            Toast.makeText(context, "Permissions are required to proceed.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun checkPermissions() {
+        val requiredPermissions = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_MEDIA_IMAGES
+        )
+
+        val permissionsNotGranted = requiredPermissions.filter {
+            ContextCompat.checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED
+        }.toTypedArray()
+
+        if (permissionsNotGranted.isNotEmpty()) {
+            requestPermissions(permissionsNotGranted, PERMISSIONS_REQUEST_CODE)
+        }
+    }
+
+    private fun uploadImage(bitmap: Bitmap) {
+        val userToken = SecureStorage.getToken(requireContext())
+        if (userToken != null) {
+            scannerViewModel.uploadImage(bitmap, userToken)
         }
     }
 
     companion object {
-        private const val REQUEST_IMAGE_CAPTURE = 100
-        private const val REQUEST_PICK_IMAGE = 101
-        private const val REQUEST_CAMERA_PERMISSION = 102
-        private const val REQUEST_GALLERY_PERMISSION = 103
+        private const val REQUEST_IMAGE_CAPTURE = 1
+        private const val REQUEST_PICK_IMAGE = 2
+        private const val PERMISSIONS_REQUEST_CODE = 123
     }
 }
