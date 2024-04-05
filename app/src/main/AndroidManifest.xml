@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="CoarseFineLocation">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,10 +21,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Bondoman_pdd"
         tools:targetApi="31">
+        <receiver android:name=".ui.addTransactions.MyBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
+                <action android:name="android.intent.action.RANDOMIZE_TRANSACTION" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".AddTransactionActivity"
             android:exported="false"
             android:label="@string/add_transactions_title" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false"
@@ -34,6 +50,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".data.service.TokenCheckService"/>
     </application>
 
 </manifest>

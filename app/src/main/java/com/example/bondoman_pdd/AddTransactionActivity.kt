@@ -14,5 +14,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 .replace(R.id.container, AddTransactionFragment.newInstance())
                 .commitNow()
         }
+
+
     }
 }

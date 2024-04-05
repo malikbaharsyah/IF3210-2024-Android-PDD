@@ -1,7 +1,9 @@
 package com.example.bondoman_pdd.ui.login
 
+import SecureStorage
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -10,13 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import com.example.bondoman_pdd.MainActivity
 import com.example.bondoman_pdd.databinding.ActivityLoginBinding
-
 import com.example.bondoman_pdd.R
+import com.example.bondoman_pdd.data.repository.LoginRepository
+import com.example.bondoman_pdd.data.utils.NetworkUtils
+import java.util.Objects
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,23 +28,27 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.username
-        val password = binding.password
-        val login = binding.login
-        val loading = binding.loading
+        Objects.requireNonNull(getSupportActionBar())?.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.top_bg)))
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
+        val username = binding.judul
+        val password = binding.password
+        val loginButton = binding.login
+        val loadingProgressBar = binding.loading
+
+        val loginRepository = LoginRepository()
+        val viewModelFactory = LoginViewModelFactory(loginRepository)
+        loginViewModel = ViewModelProvider(this, viewModelFactory)
             .get(LoginViewModel::class.java)
+
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+            loginButton.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
                 username.error = getString(loginState.usernameError)
@@ -51,20 +58,27 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
-
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
-            } else if (username.text.toString() != "jason@gmail.com" || password.text.toString() != "12345678") {
-                // Check if username and password are not equal to expected values
-                showLoginFailed(R.string.login_failed) // Show login failed message
-            } else {
-                // Username and password match expected values, proceed with successful login
-                updateUiWithUser(loginResult.success!!)
+        loginViewModel.loginResult.observe(this@LoginActivity, Observer { result ->
+            val email = username.text.toString()
+            if (loadingProgressBar != null) {
+                loadingProgressBar.visibility = View.GONE
+            }
+            result.fold(onSuccess = { response ->
+                // store token
+                SecureStorage.storeToken(this@LoginActivity, response.token)
+                SecureStorage.storeEmail(this@LoginActivity, email)
+                // Handle successful login
+                val welcomeMessage = getString(R.string.welcome) + email
+                Toast.makeText(applicationContext, welcomeMessage, Toast.LENGTH_LONG).show()
+                // Proceed to MainActivity
+                startActivity(Intent(this, MainActivity::class.java))
                 setResult(Activity.RESULT_OK)
                 finish()
-            }
+            }, onFailure = {
+                // Handle login failure
+                showLoginFailed(R.string.login_failed)
+                return@Observer
+            })
         })
 
         username.afterTextChanged {
@@ -82,28 +96,26 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+            loginButton.setOnClickListener {
+                if (loadingProgressBar != null) {
+                    loadingProgressBar.visibility = View.VISIBLE
                 }
-                false
-            }
-
-            login.setOnClickListener {
-//                loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                val email = username.text.toString()
+                val pw = password.text.toString()
+                if (!NetworkUtils.isOnline(this@LoginActivity)) {
+                    NetworkUtils.showNoInternetConnectionPopup(this@LoginActivity)
+                } else {
+                    loginViewModel.login(email, pw)
+                }
             }
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+    override fun onResume() {
+        super.onResume()
+        if (!NetworkUtils.isOnline(this)) {
+            NetworkUtils.showNoInternetConnectionPopup(this)
+        }
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
@@ -121,7 +133,6 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }

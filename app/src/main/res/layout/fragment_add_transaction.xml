@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.addTransactions.AddTransactionFragment">
 
     <LinearLayout
         android:id="@+id/container1"
@@ -25,47 +25,32 @@
         tools:context=".ui.login.LoginActivity">
 
         <TextView
+            android:id="@+id/judulLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="70sp"
-            android:text="@string/login_title"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:fontFamily="@font/montserrat_extrabold"
-            android:textStyle="bold"
-            android:lineSpacingMultiplier="1.1"
-            android:layout_marginBottom="20dp"/>
-
-        <TextView
-            android:id="@+id/emailLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/prompt_email"
-            android:textSize="25sp"
+            android:text="@string/judul"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="20dp"/>
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/prompt_email"
-            android:hint="@string/prompt_email"
+            android:autofillHints="@string/judul"
+            android:hint="@string/judul"
             android:padding="8dp"
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@android:color/black"
-            android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
             android:layout_marginTop="8dp" />
 
         <TextView
-            android:id="@+id/passwordLabel"
+            android:id="@+id/nominalLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/prompt_password"
+            android:text="@string/nominal"
             android:textSize="25sp"
             android:fontFamily="@font/montserrat_bold"
             android:textColor="@android:color/black"
@@ -74,22 +59,65 @@
             android:layout_marginTop="40dp"/>
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/nominal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="@string/prompt_password"
-            android:hint="@string/prompt_password"
+            android:autofillHints="@string/nominal"
+            android:hint="@string/nominal"
             android:padding="8dp"
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@android:color/black"
-            android:imeActionLabel="@string/action_log_in_short"
             android:imeOptions="actionDone"
-            android:inputType="textPassword"
+            android:selectAllOnFocus="true"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/kategoriLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kategori"
+            android:textSize="25sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="40dp"/>
+
+        <Spinner
+            android:id="@+id/kategori"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/lokasiLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lokasi"
+            android:textSize="25sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="25dp"/>
+
+        <EditText
+            android:id="@+id/lokasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/lokasi"
+            android:hint="@string/lokasi"
+            android:padding="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@android:color/black"
+            android:imeOptions="actionDone"
             android:selectAllOnFocus="true"
             android:layout_marginTop="8dp" />
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/save_add_transaction"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -97,9 +125,9 @@
             android:layout_marginTop="60dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/montserrat_bold"
-            android:backgroundTint="@color/button_background"
-            android:text="@string/action_log_in_short"
             android:textAllCaps="false"
+            android:backgroundTint="@color/button_background"
+            android:text="@string/saveButton"
             android:textSize="20sp"/>
 
     </LinearLayout>

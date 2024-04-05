@@ -4,29 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.example.bondoman_pdd.data.LoginRepository
-import com.example.bondoman_pdd.data.Result
+import androidx.lifecycle.viewModelScope
 
 import com.example.bondoman_pdd.R
+import com.example.bondoman_pdd.data.model.LoginResponse
+import com.example.bondoman_pdd.data.repository.LoginRepository
+import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    private val _loginResult = MutableLiveData<Result<LoginResponse>>()
+    val loginResult: LiveData<Result<LoginResponse>> = _loginResult
 
-    fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
-
-        if (result is Result.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
-        }
+    fun login(email: String, password: String) {
+            viewModelScope.launch {
+                val resultLiveData = loginRepository.login(email, password)
+                resultLiveData.observeForever { result ->
+                    _loginResult.postValue(result)
+                }
+            }
     }
 
     fun loginDataChanged(username: String, password: String) {
