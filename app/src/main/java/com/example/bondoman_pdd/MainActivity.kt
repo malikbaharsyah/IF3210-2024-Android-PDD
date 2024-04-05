@@ -25,7 +25,6 @@ import com.example.bondoman_pdd.databinding.ActivityMainBinding
 import com.example.bondoman_pdd.data.utils.NetworkUtils
 import com.example.bondoman_pdd.ui.login.LoginActivity
 import java.util.Objects
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
